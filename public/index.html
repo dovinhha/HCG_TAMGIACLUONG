@@ -15,7 +15,90 @@
     <title>Tam giác lượng Nhóm 16</title>
   </head>
   <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
+    <canvas style="z-index: -999;"></canvas>
+  <script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', () => {
+      let canvas = document.querySelector('canvas');
+      let c = canvas.getContext('2d');
+      const arrColor = [
+        "#A40E4C",
+        "#2C2C54",
+        "#ACC3A6",
+        "#F5D6BA",
+        "#F49D6E",
+        "#75F4F4",
+        "#90E0F3",
+        "#B8B3E9",
+        "#D999B9",
+        "#D17B88",
+        "#C0CAAD",
+        "#9DA9A0",
+        "#363537",
+        "#0CCE6B",
+        "#DCED31",
+        "#EF2D56",
+        "#ED7D3A",
+      ]
+
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      canvas.style.position = "absolute";
+
+      document.addEventListener('resize', () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      });
+
+      function Triangle() {
+        this.x = Math.floor(Math.random() * canvas.width);
+        this.y = -20;
+        this.color = arrColor[Math.floor(Math.random() * arrColor.length-1)];
+        this.z = Math.floor(Math.random() * 10);
+        this.t = Math.floor(Math.random() * 10);
+        this.velocity = {
+          x: Math.random() * 6 - 2,
+          y: Math.random() * 6
+        }
+      };
+
+      Triangle.prototype.draw = function (c) {
+        c.beginPath();
+        c.moveTo(this.x,this.y);
+        c.lineTo(this.x - this.t,this.y + this.z);
+        c.lineTo(this.x + this.z, this.y + this.z);
+        c.fillStyle = this.color;
+        c.fill();
+        c.closePath();
+      }
+
+      Triangle.prototype.update = function (c) {
+        this.x += this.velocity.x;
+        this.y += this.velocity.y;
+        this.draw(c);
+      }
+
+      let arrayTriangle = [];
+
+      function init() {
+        for (let i = 0; i < 1; i++) {
+          arrayTriangle.push(new Triangle);
+        }
+      }
+
+      function animate() {
+        window.requestAnimationFrame(animate);
+        c.clearRect(0, 0, canvas.width, canvas.height);
+        if (arrayTriangle.length > 150)
+          arrayTriangle.splice(0, 1);
+        init();
+        arrayTriangle.forEach((triangle) => {
+          triangle.update(c);
+        });
+      }
+
+      animate();
+    })
+  </script>
   </body>
 </html>

@@ -174,7 +174,7 @@ function App() {
       for: "goca",
       checked: false,
       value: "A",
-      label: "Góc a",
+      label: "Góc A",
       name: "conclude",
     },
     {
@@ -182,7 +182,7 @@ function App() {
       for: "gocb",
       checked: false,
       value: "B",
-      label: "Góc b",
+      label: "Góc B",
       name: "conclude",
     },
     {
@@ -190,7 +190,7 @@ function App() {
       for: "gocc",
       checked: false,
       value: "C",
-      label: "Góc c",
+      label: "Góc C",
       name: "conclude",
     },
     {
@@ -198,7 +198,7 @@ function App() {
       for: "s",
       checked: false,
       value: "S",
-      label: "Diện tích s",
+      label: "Diện tích S",
       name: "conclude",
     },
     {
@@ -335,17 +335,35 @@ function App() {
       <div class="d-flex flex-row align-items-center justify-content-center mt-2">
         <button
           onClick={() => {
-            if (caculate !== "") {
-              const tempHyphos = [];
-              arrHypothesis.map((item, index) => {
-                item.map((val, inVal) => {
-                  if (val.value !== "") {
-                    tempHyphos.push(val.name.trim());
-                  }
-                });
+            const tempHyphos = [];
+            const tempHyphos2 = [];
+            arrHypothesis.map((item, index) => {
+              item.map((val, inVal) => {
+                if (val.value !== "") {
+                  tempHyphos.push(val.label.trim());
+                  tempHyphos2.push(val.name.trim());
+                }
               });
-              setHyphos(tempHyphos);
-              if (tempHyphos.indexOf(caculate) !== -1) {
+            });
+            setHyphos(tempHyphos);
+            if (_.isEmpty(tempHyphos2)) {
+              store.addNotification({
+                title: "Thông báo!",
+                message: "Vui lòng nhập giả thuyết!",
+                type: "danger",
+                container: "bottom-right",
+                animationIn: ["animated", "fadeIn"],
+                animationOut: ["animated", "fadeOut"],
+                dismiss: {
+                  onScreen: true,
+                  pauseOnHover: true,
+                  duration: 5000,
+                },
+              });
+              return;
+            }
+            if (caculate !== "") {
+              if (tempHyphos2.indexOf(caculate) !== -1) {
                 store.addNotification({
                   title: "Thông báo!",
                   message:

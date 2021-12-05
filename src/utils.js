@@ -81,6 +81,7 @@ const callbackCaculate = (
       }
       let check = 0;
       let checkRequire = 0;
+      let checkResult = false;
       Object.keys(item).map((key, inKey) => {
         if (item[key] === true) {
           checkRequire++;
@@ -89,12 +90,16 @@ const callbackCaculate = (
           if (item[key] === true && key === val) {
             check++;
           }
+          if (item[key] === val && key === "result") {
+            checkResult = true;
+          }
         });
       });
       if (
         check <= tempHypothesisConvert.length &&
         check > 1 &&
-        checkRequire === check
+        checkRequire === check &&
+        !checkResult
       ) {
         arrHypothesisCurrent.push(item);
         SAT.push(item);
@@ -150,8 +155,7 @@ const callbackCaculate = (
           duration: 5000,
         },
       });
-      // alert("Giả thuyết đã cho không thể tính!");
-      return SATUsed;
+      return [];
     }
   }
 };
