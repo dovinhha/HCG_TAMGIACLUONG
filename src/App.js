@@ -97,7 +97,7 @@ function App() {
         value: "",
       },
       {
-        label: "Góc A",
+        label: "Góc C",
         name: "C",
         placeholder: "Nhập góc C",
         value: "",
