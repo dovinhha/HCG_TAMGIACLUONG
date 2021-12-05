@@ -465,7 +465,7 @@ function App() {
                   value: "",
                 },
                 {
-                  label: "Góc A",
+                  label: "Góc C",
                   name: "C",
                   placeholder: "Nhập góc C",
                   value: "",
@@ -514,7 +514,9 @@ function App() {
           <p>
             Các luật sử dụng theo thứ tự:{" "}
             {SATResult.map((item, index) => (
-              <p>Luật {data[item?.index]}</p>
+              <p className={classes.SATResultp}>
+                Bước {index + 1}: Luật {data[item?.index]}
+              </p>
             ))}
           </p>
         </div>
@@ -528,5 +530,8 @@ export default App;
 const useStyles = makeStyles({
   reslut: {
     padding: "0px 30px",
+  },
+  SATResultp: {
+    marginLeft: 20,
   },
 });
