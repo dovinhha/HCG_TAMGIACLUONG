@@ -36,12 +36,17 @@ export const handleCalculate = (
   arrHypothesis,
   dataConvered,
   caculate,
-  setSATResult
+  setSATResult,
+  setHypoDistance,
+  setArrTable
+  // arrTable
 ) => {
   const tempDataConvered = handleCalculateDistanceEachRules(
     caculate,
     dataConvered
   );
+  const arrTable = [];
+  setHypoDistance(tempDataConvered);
   let tempHypothesisConvert = [];
   let SAT = [];
   let SATUsed = [];
@@ -58,7 +63,9 @@ export const handleCalculate = (
     SAT,
     SATUsed,
     tempDataConvered,
-    indexApproved
+    indexApproved,
+    setArrTable,
+    arrTable
   );
   setSATResult(SATResult);
 };
@@ -68,7 +75,9 @@ const callbackCaculate = (
   SAT,
   SATUsed,
   dataConvered,
-  indexApproved
+  indexApproved,
+  setArrTable,
+  arrTable
 ) => {
   const arrHypothesisCurrent = [];
   if (!_.isEmpty(dataConvered)) {
@@ -105,6 +114,7 @@ const callbackCaculate = (
         SAT.push(item);
       }
     });
+
     if (!_.isEmpty(arrHypothesisCurrent)) {
       let indexMinDistance = 0;
       let indexHypothesisCurrent = arrHypothesisCurrent[0].index;
@@ -126,9 +136,20 @@ const callbackCaculate = (
       });
       indexApproved.push(indexHypothesisCurrent);
       if (checkResult) {
+        arrTable.push({
+          arrHypoConvert: [...tempHypothesisConvert],
+          arrHypoCurrent: [...arrHypothesisCurrent],
+          arrSAT: [...SATUsed, arrHypothesisCurrent[indexResult]],
+        });
+        setArrTable(arrTable);
         return [...SATUsed, arrHypothesisCurrent[indexResult]];
       }
       SATUsed = [...SATUsed, arrHypothesisCurrent[indexMinDistance]];
+      arrTable.push({
+        arrHypoConvert: [...tempHypothesisConvert],
+        arrHypoCurrent: [...arrHypothesisCurrent],
+        arrSAT: [...SATUsed],
+      });
       tempHypothesisConvert = [
         ...tempHypothesisConvert,
         arrHypothesisCurrent[indexMinDistance].result,
@@ -139,9 +160,12 @@ const callbackCaculate = (
         SAT,
         SATUsed,
         dataConvered,
-        indexApproved
+        indexApproved,
+        setArrTable,
+        arrTable
       );
     } else {
+      setArrTable([]);
       store.addNotification({
         title: "Thông báo!",
         message: "Giả thuyết đã cho không thể tính!",

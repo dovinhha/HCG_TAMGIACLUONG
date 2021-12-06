@@ -7,6 +7,14 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import Grid from "@mui/material/Grid";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
 import { makeStyles } from "@mui/styles";
 import _ from "lodash";
 import { store } from "react-notifications-component";
@@ -39,9 +47,11 @@ function App() {
   const [open, setOpen] = React.useState(false);
   const [data, setData] = useState([]);
   const [dataConvered, setDataConvered] = useState([]);
+  const [hypoDistance, setHypoDistance] = useState([]);
   const [rules, setRules] = useState([]);
   const [SATResult, setSATResult] = useState([]);
   const [hyphos, setHyphos] = useState([]);
+  const [arrTable, setArrTable] = useState([]);
   const [arrHypothesis, setArrHypothesis] = useState([
     [
       {
@@ -226,6 +236,7 @@ function App() {
   const handleClose = () => {
     setOpen(false);
   };
+
   return (
     <div className="App">
       <ReactNotification
@@ -384,7 +395,10 @@ function App() {
                 arrHypothesis,
                 dataConvered,
                 caculate,
-                setSATResult
+                setSATResult,
+                setHypoDistance,
+                setArrTable,
+                arrTable
               );
             } else {
               store.addNotification({
@@ -511,6 +525,90 @@ function App() {
               )}
           </p>
           <p>Kết quả cần tính: {labelCaculate}</p>
+          <p>Ta có: </p>
+          <Grid container>
+            {hypoDistance.map((item, index) => (
+              <Grid item key={index} lg={3} md={3} sm={3} xs={6}>
+                h(r{item.index + 1}) = kc({item.result}, {caculate}) ={" "}
+                {item.distance === -1 ? "Vô cùng" : item.distance}
+              </Grid>
+            ))}
+          </Grid>
+          {!_.isEmpty(arrTable) && (
+            <div>
+              <TableContainer component={Paper}>
+                <Table size="small" aria-label="a dense table">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>STT</TableCell>
+                      <TableCell align="left">TG</TableCell>
+                      <TableCell align="left">SAT</TableCell>
+                      <TableCell align="left">VET</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {arrTable.map((item, index) => (
+                      <TableRow key={index}>
+                        <TableCell>{index + 1}</TableCell>
+                        <TableCell>
+                          {!_.isEmpty(item?.arrHypoConvert) &&
+                            item.arrHypoConvert.map((val, inVal) =>
+                              inVal === item.arrHypoConvert.length - 1
+                                ? `${val}.`
+                                : `${val}, `
+                            )}
+                        </TableCell>
+                        <TableCell>
+                          {!_.isEmpty(item?.arrHypoCurrent) &&
+                            item.arrHypoCurrent.map(
+                              (val, inVal) =>
+                                // inVal === item.arrHypoCurrent.length - 1
+                                //   ?
+                                val.index + 1 ===
+                                item.arrSAT[item.arrSAT.length - 1].index +
+                                  1 ? (
+                                  <b>
+                                    r{val.index + 1}({val.distance})
+                                    {inVal === item.arrHypoCurrent.length - 1
+                                      ? "."
+                                      : ", "}
+                                  </b>
+                                ) : (
+                                  `r${val.index + 1}(${val.distance})${
+                                    inVal === item.arrHypoCurrent.length - 1
+                                      ? "."
+                                      : ", "
+                                  }`
+                                )
+                              // : `${
+                              //     val.index + 1 ===
+                              //     item.arrSAT[item.arrSAT.length - 1].index +
+                              //       1 ? (
+                              //       <b>
+                              //         asxas
+                              //         {/* r{val.index + 1}({val.distance}),{" "} */}
+                              //       </b>
+                              //     ) : (
+                              //       `r${val.index + 1}(${val.distance}), `
+                              //     )
+                              //   }`
+                            )}
+                        </TableCell>
+                        <TableCell>
+                          {!_.isEmpty(item?.arrSAT) &&
+                            item.arrSAT.map((val, inVal) =>
+                              inVal === item.arrSAT.length - 1
+                                ? `r${val.index + 1}.`
+                                : `r${val.index + 1}, `
+                            )}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </div>
+          )}
           <p>
             Các luật sử dụng theo thứ tự:{" "}
             {SATResult.map((item, index) => (
