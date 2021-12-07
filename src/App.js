@@ -15,6 +15,9 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import FormGroup from "@mui/material/FormGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
 import { makeStyles } from "@mui/styles";
 import _ from "lodash";
 import { store } from "react-notifications-component";
@@ -59,18 +62,21 @@ function App() {
         name: "a",
         placeholder: "Nhập cạnh a",
         value: "",
+        checked: false,
       },
       {
         label: "Cạnh b",
         name: "b",
         placeholder: "Nhập cạnh b",
         value: "",
+        checked: false,
       },
       {
         label: "Cạnh c",
         name: "c",
         placeholder: "Nhập cạnh c",
         value: "",
+        checked: false,
       },
     ],
     [
@@ -79,18 +85,21 @@ function App() {
         name: "ha",
         placeholder: "Nhập chiều cao a",
         value: "",
+        checked: false,
       },
       {
         label: "Chiều cao hb",
         name: "hb",
         placeholder: "Nhập chiều cao b",
         value: "",
+        checked: false,
       },
       {
         label: "Chiều cao hc",
         name: "hc",
         placeholder: "Nhập chiều cao c",
         value: "",
+        checked: false,
       },
     ],
     [
@@ -99,18 +108,21 @@ function App() {
         name: "A",
         placeholder: "Nhập góc A",
         value: "",
+        checked: false,
       },
       {
         label: "Góc B",
         name: "B",
         placeholder: "Nhập góc B",
         value: "",
+        checked: false,
       },
       {
         label: "Góc C",
         name: "C",
         placeholder: "Nhập góc C",
         value: "",
+        checked: false,
       },
     ],
     [
@@ -119,12 +131,14 @@ function App() {
         name: "S",
         placeholder: "Nhập S",
         value: "",
+        checked: false,
       },
       {
         label: "Nửa chu vi p",
         name: "p",
         placeholder: "Nhập p",
         value: "",
+        checked: false,
       },
     ],
   ]);
@@ -268,50 +282,95 @@ function App() {
       </Dialog>
       <h1>Xây dựng hệ chuyên gia Tam giác lượng</h1>
       <h3>Giả thuyết: </h3>
-      <div class="d-flex flex-row">
-        {arrHypothesis.map((item, index) => {
-          return (
-            <div class="item-input">
-              {item.map((val, inVal) => {
-                return (
-                  <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text" id="basic-addon1">
-                        {val.label}
-                      </span>
-                    </div>
-                    <input
-                      type="number"
-                      name={val.name}
-                      value={val.value}
-                      onChange={(e) => {
-                        setSATResult([]);
-                        setArrHypothesis([
-                          ...arrHypothesis.slice(0, index),
-                          [
-                            ...arrHypothesis[index].slice(0, inVal),
-                            {
-                              ...arrHypothesis[index][inVal],
-                              value:
-                                Number(e.target.value) > 0
-                                  ? e.target.value
-                                  : "",
-                            },
-                            ...arrHypothesis[index].slice(inVal + 1),
-                          ],
-                          ...arrHypothesis.slice(index + 1),
-                        ]);
-                      }}
-                      class="form-control"
-                      placeholder={val.placeholder}
+      {/* <div class="d-flex flex-row"> */}
+      <FormGroup>
+        <Grid container>
+          {arrHypothesis.map((item, index) => {
+            return (
+              <Grid
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
+                lg={3}
+                md={3}
+                sm={3}
+                xs={6}
+                item
+              >
+                {item.map((val, inVal) => {
+                  return (
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          onChange={(e) => {
+                            setSATResult([]);
+                            setArrHypothesis([
+                              ...arrHypothesis.slice(0, index),
+                              [
+                                ...arrHypothesis[index].slice(0, inVal),
+                                {
+                                  ...arrHypothesis[index][inVal],
+                                  value: e.target.checked ? 1 : "",
+                                  checked: e.target.checked,
+                                },
+                                ...arrHypothesis[index].slice(inVal + 1),
+                              ],
+                              ...arrHypothesis.slice(index + 1),
+                            ]);
+                          }}
+                          checked={val.checked}
+                        />
+                      }
+                      label={val.label}
                     />
-                  </div>
-                );
-              })}
-            </div>
-          );
-        })}
-      </div>
+                  );
+                })}
+              </Grid>
+            );
+          })}
+        </Grid>
+      </FormGroup>
+      {/* <div class="item-input">
+           {item.map((val, inVal) => {
+            return (
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="basic-addon1">
+                    {val.label}
+                  </span>
+                </div>
+                <input
+                  type="number"
+                  name={val.name}
+                  value={val.value}
+                  onChange={(e) => {
+                    setSATResult([]);
+                    setArrHypothesis([
+                      ...arrHypothesis.slice(0, index),
+                      [
+                        ...arrHypothesis[index].slice(0, inVal),
+                        {
+                          ...arrHypothesis[index][inVal],
+                          value:
+                            Number(e.target.value) > 0
+                              ? e.target.value
+                              : "",
+                        },
+                        ...arrHypothesis[index].slice(inVal + 1),
+                      ],
+                      ...arrHypothesis.slice(index + 1),
+                    ]);
+                  }}
+                  class="form-control"
+                  placeholder={val.placeholder}
+                />
+              </div>
+            );
+          })}
+        </div>
+      </div> */}
       <h3>Kết luận: </h3>
       <div class="d-flex flex-column justify-content-center align-items-center">
         <div
