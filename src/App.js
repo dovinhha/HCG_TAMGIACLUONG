@@ -291,7 +291,8 @@ function App() {
                 style={{
                   display: "flex",
                   flexDirection: "column",
-                  alignItems: "center",
+                  // alignItems: "center",
+                  padding: "0px 100px",
                 }}
                 lg={3}
                 md={3}
@@ -332,45 +333,6 @@ function App() {
           })}
         </Grid>
       </FormGroup>
-      {/* <div class="item-input">
-           {item.map((val, inVal) => {
-            return (
-              <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                  <span class="input-group-text" id="basic-addon1">
-                    {val.label}
-                  </span>
-                </div>
-                <input
-                  type="number"
-                  name={val.name}
-                  value={val.value}
-                  onChange={(e) => {
-                    setSATResult([]);
-                    setArrHypothesis([
-                      ...arrHypothesis.slice(0, index),
-                      [
-                        ...arrHypothesis[index].slice(0, inVal),
-                        {
-                          ...arrHypothesis[index][inVal],
-                          value:
-                            Number(e.target.value) > 0
-                              ? e.target.value
-                              : "",
-                        },
-                        ...arrHypothesis[index].slice(inVal + 1),
-                      ],
-                      ...arrHypothesis.slice(index + 1),
-                    ]);
-                  }}
-                  class="form-control"
-                  placeholder={val.placeholder}
-                />
-              </div>
-            );
-          })}
-        </div>
-      </div> */}
       <h3>Kết luận: </h3>
       <div class="d-flex flex-column justify-content-center align-items-center">
         <div
@@ -627,10 +589,12 @@ function App() {
                                 item.arrSAT[item.arrSAT.length - 1].index +
                                   1 ? (
                                   <b>
-                                    r{val.index + 1}({val.distance})
-                                    {inVal === item.arrHypoCurrent.length - 1
-                                      ? "."
-                                      : ", "}
+                                    <u>
+                                      r{val.index + 1}({val.distance})
+                                      {inVal === item.arrHypoCurrent.length - 1
+                                        ? "."
+                                        : ", "}
+                                    </u>
                                   </b>
                                 ) : (
                                   `r${val.index + 1}(${val.distance})${
@@ -678,6 +642,11 @@ function App() {
           </p>
         </div>
       )}
+      <div className={classes.footer}>
+        <i class="far fa-copyright"></i>&ensp;2021 - Haui - Nhóm 16 - Đỗ Vinh Hà
+        2018602730 - Đặng Thị Nguyên 2019605472 - Nguyễn Đức Long
+        2019600122&emsp;
+      </div>
     </div>
   );
 }
@@ -687,8 +656,21 @@ export default App;
 const useStyles = makeStyles({
   reslut: {
     padding: "0px 30px",
+    marginBottom: 30,
   },
   SATResultp: {
     marginLeft: 20,
+  },
+  footer: {
+    position: "fixed",
+    right: 0,
+    bottom: 0,
+    background: "#36275d",
+    width: "100%",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    alignItems: "center",
+    color: "#fff",
   },
 });

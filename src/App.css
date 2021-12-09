@@ -7,6 +7,8 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  font-family: "Barlow", sans-serif;
+  overflow-x: hidden;
 }
 
 body h1 {

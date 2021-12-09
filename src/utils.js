@@ -238,23 +238,24 @@ const callbackCaculateDistance = (
     return distance;
   } else {
     let resultCallback = -1;
-    tempArrFound.every((val, inVal) => {
+    const arrResultCallback = [];
+    tempArrFound.map((val, inVal) => {
+      let tempDistanceCallback = distance;
       arrParent.push(val);
       arrRuleApproved.push(val.index);
       resultCallback = callbackCaculateDistance(
         arrParent,
         val,
-        distance,
+        tempDistanceCallback,
         arrRuleApproved,
         dataConvered,
         caculate
       );
-      if (resultCallback !== -1) {
-        return false;
-      }
-      return true;
+      resultCallback !== -1 && arrResultCallback.push(resultCallback);
     });
-    return resultCallback;
+    return !_.isEmpty(arrResultCallback)
+      ? Math.min.apply(Math, arrResultCallback)
+      : -1;
   }
 };
 
