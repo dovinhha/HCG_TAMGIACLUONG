@@ -28,6 +28,7 @@ import {
   convertData,
   handleCalculate,
 } from "./utils";
+import { Container } from "@mui/material";
 
 const readTextFile = (file, setData) => {
   var rawFile = new XMLHttpRequest();
@@ -265,15 +266,24 @@ function App() {
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
+        maxWidth="md"
       >
         <DialogTitle id="alert-dialog-title">
           Tập luật tam giác lượng
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            {data.map((item, index) => {
-              return <p key={index}>{item}</p>;
-            })}
+            <Container maxWidth="lg">
+              <Grid container>
+                {data.map((item, index) => {
+                  return (
+                    <Grid key={index} item lg={6} md={6} sm={6} xs={6}>
+                      <p style={{ fontSize: 14, fontWeight: 500 }}>{item}</p>
+                    </Grid>
+                  );
+                })}
+              </Grid>
+            </Container>
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -548,12 +558,49 @@ function App() {
           <p>Kết quả cần tính: {labelCaculate}</p>
           <p>Ta có: </p>
           <Grid container>
-            {hypoDistance.map((item, index) => (
-              <Grid item key={index} lg={3} md={3} sm={3} xs={6}>
-                h(r{item.index + 1}) = kc({item.result}, {caculate}) ={" "}
-                {item.distance === -1 ? "Vô cùng" : item.distance}
-              </Grid>
-            ))}
+            <Grid item lg={3} md={3} sm={3} xs={6}>
+              {hypoDistance
+                .slice(0, hypoDistance.length / 4)
+                .map((item, index) => (
+                  <div key={index}>
+                    h(r{item.index + 1}) = kc({item.result}, {caculate}) ={" "}
+                    {item.distance === -1 ? "Vô cùng" : item.distance}
+                  </div>
+                ))}
+            </Grid>
+            <Grid item lg={3} md={3} sm={3} xs={6}>
+              {hypoDistance
+                .slice(hypoDistance.length / 4, (hypoDistance.length / 4) * 2)
+                .map((item, index) => (
+                  <div key={index}>
+                    h(r{item.index + 1}) = kc({item.result}, {caculate}) ={" "}
+                    {item.distance === -1 ? "Vô cùng" : item.distance}
+                  </div>
+                ))}
+            </Grid>
+            <Grid item lg={3} md={3} sm={3} xs={6}>
+              {hypoDistance
+                .slice(
+                  (hypoDistance.length / 4) * 2,
+                  (hypoDistance.length / 4) * 3
+                )
+                .map((item, index) => (
+                  <div key={index}>
+                    h(r{item.index + 1}) = kc({item.result}, {caculate}) ={" "}
+                    {item.distance === -1 ? "Vô cùng" : item.distance}
+                  </div>
+                ))}
+            </Grid>
+            <Grid item lg={3} md={3} sm={3} xs={6}>
+              {hypoDistance
+                .slice((hypoDistance.length / 4) * 3)
+                .map((item, index) => (
+                  <div key={index}>
+                    h(r{item.index + 1}) = kc({item.result}, {caculate}) ={" "}
+                    {item.distance === -1 ? "Vô cùng" : item.distance}
+                  </div>
+                ))}
+            </Grid>
           </Grid>
           {!_.isEmpty(arrTable) && (
             <div>
