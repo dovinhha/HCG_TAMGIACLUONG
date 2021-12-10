@@ -382,7 +382,7 @@ function App() {
               store.addNotification({
                 title: "Thông báo!",
                 message: "Vui lòng nhập giả thuyết!",
-                type: "danger",
+                type: "warning",
                 container: "bottom-right",
                 animationIn: ["animated", "fadeIn"],
                 animationOut: ["animated", "fadeOut"],
@@ -400,7 +400,7 @@ function App() {
                   title: "Thông báo!",
                   message:
                     "Kết quả cần tính đã nằm trong giả thuyết. Vui lòng chọn lại kết quả cần tính!",
-                  type: "danger",
+                  type: "success",
                   container: "bottom-right",
                   animationIn: ["animated", "fadeIn"],
                   animationOut: ["animated", "fadeOut"],
@@ -425,7 +425,7 @@ function App() {
               store.addNotification({
                 title: "Thông báo!",
                 message: "Vui lòng chọn kết quả cần tính!",
-                type: "danger",
+                type: "warning",
                 container: "bottom-right",
                 animationIn: ["animated", "fadeIn"],
                 animationOut: ["animated", "fadeOut"],
@@ -669,7 +669,7 @@ const useStyles = makeStyles({
     width: "100%",
     display: "flex",
     flexDirection: "row",
-    justifyContent: "flex-end",
+    justifyContent: "center",
     alignItems: "center",
     color: "#fff",
   },
